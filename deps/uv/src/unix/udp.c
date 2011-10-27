@@ -501,6 +501,22 @@ int uv_udp_set_membership(uv_udp_t* handle, const char* multicast_addr,
 }
 
 
+int uv_udp_set_broadcast(uv_udp_t* handle, int on) {
+  /*if (setsockopt(handle->fd, IPPROTO_IP, 15, &on, sizeof on) == -1) {*/
+  if (setsockopt(handle->fd, IPPROTO_IP, SO_REUSEADDR, &on, sizeof on) == -1) {
+    uv__set_sys_error(handle->loop, errno);
+    return -1;
+  }
+
+  if (setsockopt(handle->fd, IPPROTO_IP, SO_BROADCAST, &on, sizeof on) == -1) {
+    uv__set_sys_error(handle->loop, errno);
+    return -1;
+  }
+
+  return 0;
+}
+
+
 int uv_udp_getsockname(uv_udp_t* handle, struct sockaddr* name,
     int* namelen) {
   socklen_t socklen;
