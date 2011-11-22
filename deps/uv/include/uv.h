@@ -629,10 +629,24 @@ UV_EXTERN int uv_udp_set_membership(uv_udp_t* handle,
     uv_membership membership);
 
 /*
+ * Set the multicast ttl
+ *
+ * Arguments:
+ *  handle              UDP handle. Should have been initialized with
+ *                      `uv_udp_init`.
+ *  ttl                 1 through 255
+ *
+ * Returns:
+ *  0 on success, -1 on error.
+ */
+int uv_udp_set_multicast_ttl(uv_udp_t* handle, int ttl);
+
+/*
  * Set broadcast on or off
  *
  * Arguments:
- *  handle              UDP handle. Should have been initialized with `uv_udp_init`.
+ *  handle              UDP handle. Should have been initialized with
+ *                      `uv_udp_init`.
  *  on                  1 for on, 0 for off
  *
  * Returns:
